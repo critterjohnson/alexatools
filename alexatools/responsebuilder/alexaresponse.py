@@ -1,0 +1,421 @@
+class AlexaResponse(object):
+	"""Represents a response to for an Alexa skill
+
+	--- Attributes ---
+	version - int, str
+		the version of the skill
+	session_attributes - dict
+		contains key-value pairs that persist in session
+	output_speech_type - str
+		the type of output speech (PlainText, ssml)
+	text - str
+		the text for Alexa to speak
+	ssml - str
+		str with ssml (Speech Synthesis Markup language) for Alexa to speak
+	play_behavior - str
+		behavior for responding
+	card_type - str
+		type of card to create
+	card_title - str
+		title of card to create
+	card_content - str
+		content of card of type Simple
+	card_text - str
+		content of card of type Standard
+	card_small_image_url - str
+		url for small card image
+	card_large_image_url - str
+		url for large card image
+	reprompt_speech_type - str
+		speech type for repropmt
+	reprompt_text - str
+		text for reprompt
+	repropmt_ssml - str
+		str with ssml for Alexa to speak
+	reprompt_play_behavior - str
+		play behavior for reprompting
+	should_end_session - bool
+		whether or not to end the current session on response
+	directives - list
+		list of directives to respond with
+
+	--- Methods ---
+	addDirective(directive)
+		adds directive to the current list of directives
+	"""
+
+	def __init__(self,
+				 version="",
+				 session_attributes={},
+				 output_speech_type=None,
+				 text=None,
+				 ssml=None,
+				 play_behavior="ENQUEUE",
+				 card_type=None,
+				 card_title=None,
+				 card_content=None,
+				 card_text=None,
+				 card_small_image_url=None,
+				 card_large_image_url=None,
+				 reprompt_speech_type=None,
+				 reprompt_text=None,
+				 reprompt_ssml=None,
+				 reprompt_play_behavior=None,
+				 should_end_session=True,
+				 directives=None,
+				 ):
+		"""
+		--- Parameters ---
+		version - int, str
+			the version of the skill
+		session_attributes - dict
+			contains key-value pairs that persist in session
+		output_speech_type - str
+			the type of output speech (PlainText, ssml)
+		text - str
+			the text for Alexa to speak
+		ssml - str
+			str with ssml (Speech Synthesis Markup language) for Alexa to speak
+		play_behavior - str (default is ENQUEUE)
+			behavior for responding
+		card_type - str
+			type of card to create
+		card_title - str
+			title of card to create
+		card_content - str
+			content of card of type Simple
+		card_text - str
+			content of card of type Standard
+		card_small_image_url - str
+			url for small card image
+		card_large_image_url - str
+			url for large card image
+		reprompt_speech_type - str
+			speech type for repropmt
+		reprompt_text - str
+			text for reprompt
+		repropmt_ssml - str
+			str with ssml for Alexa to speak
+		reprompt_play_behavior - str
+			play behavior for reprompting
+		should_end_session - bool
+			whether or not to end the current session on response
+		directives - list
+			list of directives to respond with
+
+		if text is given but no output_speech_type is specified,
+		defaults to PlainText
+
+		if output_speech_type is not specified, and no text is given,
+		no output speech is added
+
+		if card_type is not specified, no card is added
+
+		if no card image urls are specified, no card image is added
+
+		if reprompt_speech_type is not specified, no reprompt
+		is added
+		"""
+
+		# builds the response skeleton
+		self.response = {
+			"version": "1.0",
+			"response": {},  # creates the response object
+		}
+
+		# declares variables for managing objects
+		if output_speech_type is None and text is None:
+			self._hasOutputSpeech = False
+		else:
+			self._hasOutputSpeech = True
+
+		if card_type is None:
+			self._hasCard = False
+		else:
+			self._hasCard = True
+
+		if card_small_image_url is None or card_large_image_url is None:
+			self._hasImage = False
+		else:
+			self._hasCard = True
+
+		if reprompt_speech_type is None:
+			self._hasReprompt = False
+		else:
+			self._hasReprompt = True
+
+		# if the user only supplies text, changes output_speech_type accordingly
+		if output_speech_type is None and (not text is None):
+			output_speech_type = "PlainText"
+			version = "1.0"
+
+		# assigns values according to parameters
+		# note that these call the setter for each
+		self.version = version
+		self.session_attributes = session_attributes
+		self.output_speech_type = output_speech_type
+		self.text = text
+		self.ssml = ssml
+		self.play_behavior = play_behavior
+		self.card_type = card_type
+		self.card_title = card_title
+		self.card_text = card_text
+		self.card_content = card_content
+		self.card_small_image_url = card_small_image_url
+		self.card_large_image_url = card_large_image_url
+		self.reprompt_type = reprompt_speech_type
+		self.reprompt_text = reprompt_text
+		self.reprompt_ssml = reprompt_ssml
+		self.reprompt_play_behavior = reprompt_play_behavior
+		self.should_end_session = should_end_session
+		self.directives = directives
+
+
+
+	# --- Getters
+	@property
+	def version(self):
+		return self._version
+
+
+	@property
+	def session_attributes(self):
+		return self._session_attributes
+
+
+	@property
+	def output_speech_type(self):
+		return self._output_speech_type
+
+
+	@property
+	def text(self):
+		return self._text
+
+
+	@property
+	def ssml(self):
+		return self._ssml
+
+
+	@property
+	def play_behavior(self):
+		return self._play_behavior
+
+
+	@property
+	def card_type(self):
+		return self._card_type
+
+
+	@property
+	def card_title(self):
+		return self._card_title
+
+
+	@property
+	def card_content(self):
+		return self._card_content
+
+
+	@property
+	def card_text(self):
+		return self._card_text
+
+
+	@property
+	def card_small_image_url(self):
+		return self._card_small_image_url
+
+
+	@property
+	def card_large_image_url(self):
+		return self._card_large_image_url
+
+
+	@property
+	def reprompt_speech_type(self):
+		return self._reprompt_speech_type
+
+
+	@property
+	def reprompt_text(self):
+		return self._reprompt_text
+
+
+	@property
+	def reprompt_ssml(self):
+		return self._reprompt_ssml
+
+
+	@property
+	def reprompt_play_behavior(self):
+		return self._reprompt_play_behavior
+
+
+	@property
+	def should_end_session(self):
+		return self._should_end_session
+
+
+	@property
+	def directives(self):
+		return self._directives
+	
+	
+	
+	# --- Setters
+	# all setters create their respective objects if necessary and
+	# add given value to the response
+	@version.setter
+	def version(self, ver):
+		self.response["version"] = str(ver)
+		self._version = ver
+
+
+	@session_attributes.setter
+	def session_attributes(self, attributes):
+		self.response["sessionAttributes"] = attributes
+		self._session_attributes = attributes
+
+
+	@output_speech_type.setter
+	def output_speech_type(self, tp):
+		if self._hasOutputSpeech:
+			self.response["response"]["outputSpeech"] = {}  # creates the output speech object
+			self.response["response"]["outputSpeech"]["type"] = tp
+		self._output_speech_type = tp
+
+
+	@text.setter
+	def text(self, text):
+		if self._hasOutputSpeech:
+			if self.output_speech_type == "PlainText":  # only adds if applicable
+				self.response["response"]["outputSpeech"]["text"] = text
+		self._text = text
+
+
+	@ssml.setter
+	def ssml(self, ssml):
+		if self._hasOutputSpeech:
+			if self.output_speech_type == "ssml":  # only adds if applicable
+				self.response["response"]["outputSpeech"]["ssml"] = ssml
+		self._ssml = ssml
+
+
+	@play_behavior.setter
+	def play_behavior(self, play_behavior):
+		if self._hasOutputSpeech:
+			self.response["response"]["outputSpeech"]["playBehavior"] = play_behavior
+		self._play_behavior = play_behavior
+
+
+	@card_type.setter
+	def card_type(self, card_type):
+		if self._hasCard:
+			self.response["response"]["card"] = {} # creates the card object
+			self.response["response"]["card"]["type"] = card_type
+		self._card_type = card_type
+
+
+	@card_title.setter
+	def card_title(self, card_title):
+		if self._hasCard:
+			if self.card_type is not "LinkAccount":  # only adds if applicable
+				self.response["response"]["card"]["title"] = card_title
+		self._card_title = card_title
+
+
+	@card_text.setter
+	def card_text(self, card_text):
+		if not (self.card_type == "Standard") and not (self.card_type == "LinkAccount"):
+			if self._hasCard:  # only adds if applicable
+				self.response["response"]["card"]["text"] = card_text
+		self._card_text = card_text
+
+
+	@card_content.setter
+	def card_content(self, card_content):
+		if self._hasCard:
+			if self.card_type == "Simple":  # only adds if applicable
+				self.response["response"]["card"]["content"] = card_content
+
+
+	@card_small_image_url.setter
+	def card_small_image_url(self, url):
+		if self._hasCard and self._hasImage:
+			if self.card_type == "Standard":  # only adds if applicable
+				if "image" not in self.response["response"]["card"]:
+					self.response["response"]["card"]["image"] = {} # creates the image object
+				self.response["response"]["card"]["image"]["smallImageUrl"] = url
+		self._card_small_image_url = url
+
+
+	@card_large_image_url.setter
+	def card_large_image_url(self, url):
+		if self._hasCard and self._hasImage:
+			if self.card_type == "Standard":  # only adds if applicable
+				if "image" not in self.response["response"]["card"]:
+					self.response["response"]["card"]["image"] = {} # creates the image object
+				self.response["response"]["card"]["image"]["largeImageUrl"] = url
+		self._card_large_image_url = url
+
+	@reprompt_speech_type.setter
+	def reprompt_type(self, tp):
+		if self._hasReprompt:
+			self.response["response"]["reprompt"] = {} # creates the reprompt object
+			self.response["response"]["reprompt"]["outputSpeech"] = {}
+			self.response["response"]["reprompt"]["outputSpeech"]["type"] = tp
+		self._reprompt_type = tp
+
+
+	@reprompt_text.setter
+	def reprompt_text(self, text):
+		if self._hasReprompt:
+			if self.reprompt_type == "PlainText":  # only adds if applicable
+				self.response["response"]["reprompt"]["outputSpeech"]["text"] = text
+		self._reprompt_text = text
+
+
+	@reprompt_ssml.setter
+	def reprompt_ssml(self, ssml):
+		if self._hasReprompt:
+			if self.reprompt_type == "ssml": # only adds if applicable
+				self.response["response"]["reprompt"]["outputSpeech"]["ssml"] = ssml
+		self._reprompt_ssml = ssml
+
+
+	@reprompt_play_behavior.setter
+	def reprompt_play_behavior(self, behavior):
+		if self._hasReprompt:
+			self.response["response"]["reprompt"]["outputSpeech"]["playBehavior"]
+		self._reprompt_play_behavior = behavior
+
+
+	@directives.setter
+	def directives(self, directives):
+		if directives is not None:
+			self.response["response"]["directives"] = []  # creates the directives array
+			self.response["response"]["directives"].extend(directives)
+		self._directives = directives
+
+
+	@should_end_session.setter
+	def should_end_session(self, should_end_session):
+		self.response["response"]["shouldEndSession"] = should_end_session
+		self._should_end_session = should_end_session
+
+
+
+	# --- Methods
+	def addDirective(self, directive):
+		"""Adds a directive to the response
+
+		--- Parameters ---
+		directive - dict
+			the directive to add
+		"""
+
+		self._hasDirectives = True
+		self.directives = [directive]
+	
