@@ -17,66 +17,57 @@ alexatools is not associated with Amazon in any way.
 
 ### Lambda-hosted Python code
 
-'''python
+    from alexatools import AlexaTools
+    from alexatools import AlexaResponse
 
-from alexatools import AlexaTools
-from alexatools import AlexaResponse
+    def lambda_handler(event, context):
+    	at = AlexaTools(event, context)
 
-def lambda_handler(event, context):
-	at = AlexaTools(event, context)
-
-	@handler("HelloIntent")
-	def hello(request):
-		response = AlexaResponse(text="Hello world!")
-		return(response.response)
-	
-	return at.run()
-
-'''
+    	@handler("HelloIntent")
+    	def hello(request):
+    		response = AlexaResponse(text="Hello world!")
+    		return(response.response)
+    	
+    	return at.run()
 
 ### Skills Kit JSON
-
-'''json
-
-{
-    "interactionModel": {
-        "languageModel": {
-            "invocationName": "helloworld",
-            "intents": [
-                {
-                    "name": "AMAZON.FallbackIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.CancelIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.HelpIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.StopIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.NavigateHomeIntent",
-                    "samples": []
-                },
-                {
-                    "name": "SayHello",
-                    "slots": [],
-                    "samples": [
-                        "hello"
-                    ]
-                }
-            ],
-            "types": []
+    {
+        "interactionModel": {
+            "languageModel": {
+                "invocationName": "helloworld",
+                "intents": [
+                    {
+                        "name": "AMAZON.FallbackIntent",
+                        "samples": []
+                    },
+                    {
+                        "name": "AMAZON.CancelIntent",
+                        "samples": []
+                    },
+                    {
+                        "name": "AMAZON.HelpIntent",
+                        "samples": []
+                    },
+                    {
+                        "name": "AMAZON.StopIntent",
+                        "samples": []
+                    },
+                    {
+                        "name": "AMAZON.NavigateHomeIntent",
+                        "samples": []
+                    },
+                    {
+                        "name": "SayHello",
+                        "slots": [],
+                        "samples": [
+                            "hello"
+                        ]
+                    }
+                ],
+                "types": []
+            }
         }
     }
-}
-
-'''
 
 ## Release History
 
