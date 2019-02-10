@@ -16,6 +16,7 @@ alexatools is not associated with Amazon in any way.
 ## "Hello World" example
 
 ### Lambda-hosted Python code
+
 '''python
 from alexatools import AlexaTools
 from alexatools import AlexaResponse
@@ -32,7 +33,8 @@ def lambda_handler(event, context):
 '''
 
 ### Skills Kit JSON
-'''JSON
+
+'''json
 {
     "interactionModel": {
         "languageModel": {
@@ -73,5 +75,6 @@ def lambda_handler(event, context):
 '''
 
 ## Release History
+
 * 0.1
 	* Began testing
