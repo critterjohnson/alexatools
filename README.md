@@ -1,7 +1,7 @@
 # alexatools
 >streamlining the Alexa skills design process
 
-alexatools provides the functionality of the Alexa Skills Kit in a powerful yet simple package. alexatools was designed to get up and running easily, while also maintaining the abilities of the Skill kit. 
+alexatools provides the functionality of the Alexa Skills Kit in a powerful yet simple package. alexatools was designed to get up and running easily, while also maintaining the full capabilities of the Skills kit.
 
 alexatools was designed for use with AWS Lambda, but can be used for skills hosted on a custom endpoint.
 

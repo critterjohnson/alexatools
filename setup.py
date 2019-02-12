@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
 	name="alexatools",
-	version='0.0.3',
+	version='0.0.8.6',
     description='Tools to help build Alexa skills',
     url='https://github.com/critterjohnson/alexatools',
     author='critter johnson',

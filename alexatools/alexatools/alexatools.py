@@ -1,4 +1,6 @@
 from .alexarequest import AlexaRequest
+from ..responsebuilder.alexaresponse import AlexaResponse
+from .errors import *
 
 
 class AlexaTools:
@@ -64,7 +66,17 @@ class AlexaTools:
 		request = AlexaRequest(self.event)
 		if requestType == "IntentRequest":
 			intent = self.event["request"]["intent"]["name"]
-			return self.handlers[intent](request)
-
+			try:
+				response = self.handlers[intent](request)
+			except KeyError:
+				raise(UnhandledEventError("There was no handler for the intent %s" % intent))
 		else:
-			return self.handlers[requestType](request)
+			try:
+				response = self.handlers[requestType](request)
+			except KeyError:
+				raise(UnhandledEventError("There was no handler for event %s" % requestType))
+
+		if isinstance(response, AlexaResponse):
+			return response.response
+		else:
+			return response
