@@ -25,7 +25,7 @@ def lambda_handler(event, context):
 	@handler("HelloIntent")
 	def hello(request):
 		response = AlexaResponse(text="Hello world!")
-		return(response.response)
+		return(response)
 	
 	return at.run()
 ```
